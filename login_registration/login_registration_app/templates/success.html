@@ -1,0 +1,14 @@
+{%extends 'index.html'%}
+{%block content%}
+<div class=" d-flex justify-content-between">
+    <h1>Sucess welcome {{user.first_name}} {{user.last_name}}</h1>
+    <a href="/logout" class="float-right">Logout</a>
+</div>
+    {%if messages %}
+        <ul>
+            {% for msg in messages %}
+            <li style="color:rgb(64, 212, 64);"> {{msg}} </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+{%endblock%}
