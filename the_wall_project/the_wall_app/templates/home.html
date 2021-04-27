@@ -1,0 +1,31 @@
+{%extends 'base.html'%} {%block content%}
+<nav class="navbar navbar-dark bg-dark">
+  <a class="navbar-brand" href="/">CodingDogo Wall </a>
+  <h4 class="text-white">Welcome {{user.first_name}} {{user.last_name}}</h4>
+  <div class="navbar-right">
+    <a href="/logout">log off</a>
+  </div>
+</nav>
+<form action="/create_message" method="POST" class="mt-4">
+  {%csrf_token%}
+  <div class="form-group">
+    <label for=""><h3>Post a Message</h3></label>
+    <textarea class="form-control" name="message"> </textarea>
+  </div>
+  <button type="submit" class="btn btn-primary">Post a Message</button>
+</form>
+{%for message in messages %}
+<a href="/wall">
+  <div class="card mt-3 p-3">
+    <h4>
+      {{message.user_id.first_name}} {{message.user_id.last_name}} -
+      {{message.created_at}} {%if user.id == message.user_id.id%}
+      <a href="/delete_message/{{message.id}}" class="btn btn-outline-danger"
+        >Delete</a
+      >
+      {%endif%}
+    </h4>
+    <p>{{message.message}}</p>
+  </div>
+</a>
+{%endfor%} {%endblock%}
