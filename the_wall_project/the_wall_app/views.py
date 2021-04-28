@@ -82,7 +82,6 @@ def delete_message(request, id):
     message = Messages.objects.get(id=id)
     date_created=message.created_at.date()
     tody = datetime.today().date()
-    
     if tody == date_created:
         created_hour = message.created_at.timestamp()
         minute = datetime.today().timestamp()

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+        integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous" />
+    <title>Document</title>
+</head>
+
+<body>
+    <nav class="navbar navbar-dark bg-dark">
+        <a href="/books"><h4 class="text-white">Welcome {{user.first_name}} {{user.last_name}}</h4></a>
+        <div class="navbar-right row ">
+                <a class="nav-link text-white" href="/my_list">MY LIST</a>
+                <a class="nav-link text-white" href="/logout">log off</a>
+        </div>
+    </nav>
+    <div class="container">
+        {%block content%}
+        <div class="row">
+            <div class="col-md-6">
+                <form action="/add_book" method="POST">
+                    {% csrf_token %}
+                    <h2>Add Fivorate Book</h2>
+                    <div class="form-group">
+                        <label for="inputEmail3" class="col-md-2 col-form-label">Title</label>
+                        <input type="email" class="form-control" name="title">
+                    </div>
+                    <div class="form-group">
+                        <label for="inputEmail3" class="col-md-2 col-form-label">Description</label>
+                        <textarea type="email" class="form-control" name="desc"></textarea>
+                    </div>
+                        <button type="submit" class="btn btn-primary mt-4">Add</button>
+                </form>
+                <br />
+                {%if messages %}
+        <div class="alert alert-primary" role="alert">
+            <ul>
+                {% for msg in messages %}
+                {% ifequal 'error' msg.tags %}
+                <li class="text-danger"> {{msg}} </li>
+                {%else%}
+                <li class="text-success"> {{msg}} </li>
+                {% endifequal %}
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+            </div>
+            <div class="col-md-6">
+                <h2>All Books</h2>
+                <ul>
+                    {% for i in all_books%}
+                    <li><a href="/books/{{i.id}}">{{i.title}}</a>
+                        <p>( Added by {{i.uploaded_by.first_name}} {{i.uploaded_by.last_name}} )</p>
+                        {%if user in i.users_who_like.all %}
+                        <p>This is one of your faivorate</p>
+                        {%else%}
+                        <a href="/add_to_fav/{{i.id}}">Add to faivorate</a>
+                        {%endif%}
+                    </li>
+                    {%endfor%}
+                </ul>
+            </div>
+        </div>
+        {%endblock%}
+    </div>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+        integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+        integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>

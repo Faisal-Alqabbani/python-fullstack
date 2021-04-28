@@ -1,0 +1,9 @@
+{%extends 'books.html'%}
+{%block content%}
+<h2>My List:</h2>
+<ul>
+{% for i in user.liked_books.all %}
+<li>{{i.title}}</li>
+{%endfor%}
+</ul>
+{%endblock%}
